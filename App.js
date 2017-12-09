@@ -5,6 +5,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import DeckList from './components/DeckList';
+import CreateNewDeck from './components/CreateNewDeck';
 import { white, purple } from './utils/colors';
 
 const MainNavigator = StackNavigator({
@@ -26,7 +27,7 @@ export default class App extends React.Component {
     return (
       <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
-          <DeckList />
+          <CreateNewDeck />
         </View>
       </Provider>
     );

@@ -5,9 +5,11 @@ import { purple, white } from '../utils/colors'
 
 class DeckList extends Component {
   render() {
-
     return (
       <View style={styles.container}>
+        <View style={styles.topTap}>
+          <Text>Deck</Text>
+        </View>
         <Text>Entry Detail </Text>
       </View>
     )
@@ -20,6 +22,13 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     padding: 15,
   },
+  topTap: {
+    justifyContent: 'center',
+    padding: 20,
+    fontWeight: 'bold',
+    borderColor: 'yellow',
+    borderWidth: 2,
+  }
 })
 
 function mapStateToProps(state, { navigation }) {
