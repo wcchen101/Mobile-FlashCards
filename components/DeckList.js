@@ -9,7 +9,7 @@ class DeckList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      decks: []
+      decks: {}
     };
   }
   componentDidMount() {
@@ -17,6 +17,7 @@ class DeckList extends Component {
       .then((data) => this.setState({
         decks: JSON.parse(data)
       }))
+
   }
   checkIndividualDeck = () => {
     this.toIndividualDeck();
@@ -26,6 +27,7 @@ class DeckList extends Component {
   }
   render() {
     const { decks } = this.state
+    console.log('type',typeof decks, decks)
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -33,16 +35,16 @@ class DeckList extends Component {
             <Text>Decks</Text>
           </View>
           <View style={styles.container}>
-            {decks !== undefined && decks && (decks.map((deck, index) => (
+            {decks !== undefined && decks && (Object.keys(decks).map((key) => (
               <View style={styles.deckView}>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate(
                   'IndividualDeck',
-                  {individualDeck: deck}
+                  {individualDeck: key}
                   )}
                 >
-                <Text style={styles.deckText} key={deck}> {deck} </Text>
-                <Text style={styles.deckCardText}>0 cards</Text>
+                  <Text style={styles.deckCardText}>{key}</Text>
+                  <Text style={styles.deckCardText}>{decks[key].questions.length} cards</Text>
                 </TouchableOpacity>
               </View>
             )))}

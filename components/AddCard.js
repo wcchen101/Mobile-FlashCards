@@ -8,44 +8,62 @@ import { NavigationActions } from 'react-navigation'
 class AddCard extends Component {
   constructor(props) {
     super(props);
-    const deck = [];
-    this.state = { text: 'Deck Title' };
+    this.state = {
+      cardQuestion: 'Question',
+      cardAnswer: 'Answer',
+      cardCategory: null,
+    };
   }
-  createNewDeck = () => {
-    createDeckTitle(this.state.text);
-    this.toHome();
+  componentDidMount() {
+    this.setState({
+      cardCategory: this.props.navigation.state.params.AddCard
+    })
+  }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add Card'
+    }
+  }
+  createNewCard = () => {
+    let cardSet = {}
+    let deck = this.state.cardCategory
+    cardSet['question'] = this.state.cardQuestion
+    cardSet['answer'] = this.state.cardAnswer
+    createCard(deck, cardSet)
+    console.log('press',deck, cardSet, )
+    this.props.navigation.navigate('Home')
+
   }
   getCurrentDecks = () => {
     getDecks();
   }
-  toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'CreateNewDeck'}))
-  }
+
   render() {
+    const { navigate } = this.props.navigation;
+    const { category } = this.props.navigation.state.params.AddCard
     return (
       <View style={styles.container}>
-        <View style={styles.deckTop}>
-          <Text>New Deck Name: </Text>
-        </View>
         <View style={{margin: 20, padding: 10}}>
-          <Text style={styles.textTitle}> What is the title of your new deck? </Text>
+          <Text style={styles.textTitle}> Please Enter Your Question and Answer </Text>
         </View>
         <TextInput
           style={styles.textInput}
-          onChangeText={(text) => this.setState({text: text})}
-          value={this.state.text}
+          onChangeText={(text) => this.setState({cardQuestion: text})}
+          value={this.state.cardQuestion}
+        />
+        <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({cardAnswer: text})}
+          value={this.state.cardAnswer}
         />
         <TouchableOpacity
-           onPress={this.createNewDeck}
+           onPress={this.createNewCard}
            style={styles.button}>
           <Text> Submit </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-           onPress={this.getCurrentDecks}
-           style={styles.button}>
-          <Text> Submit </Text>
-        </TouchableOpacity>
-        <Text>{this.state.text}</Text>
+        <Text>{this.state.cardQuestion}</Text>
+        <Text>{this.state.cardAnswer}</Text>
+        <Text>{this.state.cardCategory}</Text>
       </View>
     )
   }
@@ -71,6 +89,7 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 300,
     height: 50,
+    borderRadius: 10,
   },
   textInput: {
     height: 40,
@@ -86,7 +105,6 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state, { navigation }) {
-
   return {
 
   }

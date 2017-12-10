@@ -12,7 +12,11 @@ class CreateNewDeck extends Component {
     this.state = { text: 'Deck Title' };
   }
   createNewDeck = () => {
-    createDeckTitle(this.state.text);
+    let deck = {};
+    deck["title"] = this.state.text
+    deck["questions"] = []
+    createDeckTitle(deck);
+    console.log('createnew deck', deck)
     this.toHome();
   }
   getCurrentDecks = () => {

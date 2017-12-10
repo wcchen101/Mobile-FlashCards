@@ -5,19 +5,32 @@ import { red, orange, blue, lightPurp, pink, white } from './colors'
 import { Notifications, Permissions } from 'expo'
 
 export function createDeckTitle(deck) {
-  let newDecks = [];
+  let newDecks = {};
+  console.log('deck title', deck['title'])
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
-      if (data != null) {
-        newDecks = newDecks.concat(JSON.parse(data));
+      if (data !== undefined && data !== null) {
+        newDecks = data
+      } else {
+        newDecks = {}
       }
-      newDecks = newDecks.concat([deck]);
+      newDecks[deck['title']] = deck;
       AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(newDecks));
       console.log('done create new deck', newDecks);
     });
-
 }
 export function getDecks() {
+  // AsyncStorage.removeItem('MyDecksStore:decks')
   return AsyncStorage.getItem('MyDecksStore:decks')
-    .then((data) => {console.log(data)});
+    .then((data) => {console.log(JSON.parse(data))});
+}
+export function createCard(deckTitle, card) {
+  let newDecks = [];
+  AsyncStorage.getItem('MyDecksStore:decks')
+    .then((data) => {
+      data[deckTitle]['questions'].concat(card)
+      AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(data));
+      console.log('done create new card', data);
+    });
+
 }

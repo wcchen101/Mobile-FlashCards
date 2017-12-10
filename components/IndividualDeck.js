@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { purple, white } from '../utils/colors'
+import { purple, white, black, dogerBlue } from '../utils/colors'
 import { getDecks } from '../utils/helpers'
 
 class IndividualDeck extends Component {
@@ -14,7 +14,9 @@ class IndividualDeck extends Component {
   }
   static navigationOptions = ({ navigation }) => {
     const { individualDeck } = navigation.state.params
-
+    return {
+      title: individualDeck
+    }
   }
   componentDidMount() {
     AsyncStorage.getItem('MyDecksStore:decks')
@@ -35,7 +37,7 @@ class IndividualDeck extends Component {
            'AddCard',
            {AddCard: individualDeck}
            )}
-           style={styles.button}>
+           style={[styles.button, {backgroundColor: white}]}>
           <Text> Add Card </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -43,7 +45,7 @@ class IndividualDeck extends Component {
            'QuizView',
            {QuizView: individualDeck}
            )}
-           style={styles.button}>
+           style={[styles.button, {backgroundColor: dogerBlue}]}>
           <Text> Start Quiz </Text>
         </TouchableOpacity>
       </ScrollView>
