@@ -9,7 +9,8 @@ import CreateNewDeck from './components/CreateNewDeck';
 import { white, purple } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import IndividualDeck from './components/IndividualDeck';
-
+import AddCard from './components/AddCard';
+import QuizView from './components/QuizView';
 const Tabs = TabNavigator({
   DeckList: {
     screen: DeckList,
@@ -65,6 +66,22 @@ const MainNavigator = StackNavigator({
     screen: IndividualDeck,
     navigationOptions: {
       tabBarLabel: 'IndividualDeck',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30}
+      color={tintColor}/>
+    },
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      tabBarLabel: 'AddCard',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30}
+      color={tintColor}/>
+    },
+  },
+  QuizView: {
+    screen: QuizView,
+    navigationOptions: {
+      tabBarLabel: 'QuizView',
       tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30}
       color={tintColor}/>
     },

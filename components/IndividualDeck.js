@@ -31,12 +31,18 @@ class IndividualDeck extends Component {
           <Text>{this.state.cards}</Text>
         </View>
         <TouchableOpacity
-           onPress={this.createNewDeck}
+           onPress={() => this.props.navigation.navigate(
+           'AddCard',
+           {AddCard: individualDeck}
+           )}
            style={styles.button}>
           <Text> Add Card </Text>
         </TouchableOpacity>
         <TouchableOpacity
-           onPress={this.getCurrentDecks}
+           onPress={() => this.props.navigation.navigate(
+           'QuizView',
+           {QuizView: individualDeck}
+           )}
            style={styles.button}>
           <Text> Start Quiz </Text>
         </TouchableOpacity>
