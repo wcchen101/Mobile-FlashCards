@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity  } from 'react-native'
+import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
 import { getDecks } from '../utils/helpers'
-import { NavigationActions } from 'react-navigation'
-import IndividualDeck from './IndividualDeck'
-class DeckList extends Component {
+
+class IndividualDeck extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      decks: []
+      deck: null,
+      cards: 0,
     };
+  }
+  static navigationOptions = ({ navigation }) => {
+    const { individualDeck } = navigation.state.params
+
   }
   componentDidMount() {
     AsyncStorage.getItem('MyDecksStore:decks')
@@ -18,36 +22,24 @@ class DeckList extends Component {
         decks: JSON.parse(data)
       }))
   }
-  checkIndividualDeck = () => {
-    this.toIndividualDeck();
-  }
-  toIndividualDeck = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'DeckList'}))
-  }
   render() {
-    const { decks } = this.state
+    const { individualDeck } = this.props.navigation.state.params
     return (
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.topTap}>
-            <Text>Decks</Text>
-          </View>
-          <View style={styles.container}>
-            {decks !== undefined && decks && (decks.map((deck, index) => (
-              <View style={styles.deckView}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate(
-                  'IndividualDeck',
-                  {individualDeck: deck}
-                  )}
-                >
-                <Text style={styles.deckText} key={deck}> {deck} </Text>
-                <Text style={styles.deckCardText}>0 cards</Text>
-                </TouchableOpacity>
-              </View>
-            )))}
-          </View>
+          <Text>{ individualDeck }</Text>
+          <Text>{this.state.cards}</Text>
         </View>
+        <TouchableOpacity
+           onPress={this.createNewDeck}
+           style={styles.button}>
+          <Text> Add Card </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+           onPress={this.getCurrentDecks}
+           style={styles.button}>
+          <Text> Start Quiz </Text>
+        </TouchableOpacity>
       </ScrollView>
     )
   }
@@ -71,6 +63,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     fontWeight: 'bold',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    margin: 10,
+    width: 300,
+    height: 50,
   },
   deckCardText: {
     color: 'grey',
@@ -100,4 +100,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DeckList)
+)(IndividualDeck)

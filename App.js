@@ -8,6 +8,7 @@ import DeckList from './components/DeckList';
 import CreateNewDeck from './components/CreateNewDeck';
 import { white, purple } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import IndividualDeck from './components/IndividualDeck';
 
 const Tabs = TabNavigator({
   DeckList: {
@@ -59,6 +60,14 @@ const MainNavigator = StackNavigator({
         backgroundColor: purple,
       }
     }
+  },
+  IndividualDeck: {
+    screen: IndividualDeck,
+    navigationOptions: {
+      tabBarLabel: 'IndividualDeck',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30}
+      color={tintColor}/>
+    },
   }
 })
 
