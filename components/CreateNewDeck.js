@@ -3,21 +3,24 @@ import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStora
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
 import { createDeckTitle, getDecks } from '../utils/helpers'
+import { NavigationActions } from 'react-navigation'
 
 class CreateNewDeck extends Component {
   constructor(props) {
     super(props);
     const deck = [];
     this.state = { text: 'Deck Title' };
-
   }
   createNewDeck = () => {
     createDeckTitle(this.state.text);
+    this.toHome();
   }
   getCurrentDecks = () => {
     getDecks();
   }
-
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({key: 'CreateNewDeck'}))
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -56,10 +59,8 @@ const styles = StyleSheet.create({
   },
   deckTop: {
     justifyContent: 'center',
-    fontSize: 20,
     padding: 20,
     marginTop: 10,
-    fontWeight: 'bold',
     borderColor: 'yellow',
     borderWidth: 2,
   },
