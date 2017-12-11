@@ -26,7 +26,6 @@ class DeckList extends Component {
   }
   render() {
     const { decks } = this.state
-
     console.log('type',typeof decks, decks)
 
     return (
@@ -37,7 +36,7 @@ class DeckList extends Component {
           </View>
           <View style={styles.container}>
             {decks !== undefined && decks && (Object.keys(decks).map((key) => (
-              <View style={styles.deckView}>
+              <View key={key} style={styles.deckView}>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate(
                   'IndividualDeck',

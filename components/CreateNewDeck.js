@@ -17,7 +17,7 @@ class CreateNewDeck extends Component {
     deck["questions"] = []
     createDeckTitle(deck);
     console.log('createnew deck', deck)
-    this.toHome();
+    this.props.navigation.navigate('Home')
   }
   getCurrentDecks = () => {
     getDecks();

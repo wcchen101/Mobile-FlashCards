@@ -10,7 +10,7 @@ export function createDeckTitle(deck) {
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
       if (data !== undefined && data !== null) {
-        newDecks = data
+        newDecks = JSON.parse(data)
       } else {
         newDecks = {}
       }
@@ -34,5 +34,14 @@ export function createCard(deckTitle, card) {
       AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(data));
       console.log('done create new card', data[deckTitle]['questions']);
     });
-
+}
+export function getQuiz(deck) {
+  AsyncStorage.getItem('MyDecksStore:decks')
+    .then((data) => {
+      data = JSON.parse(data)
+      let deck = data[deck]
+      let question = deck['question']
+      let count = deck['question'].length
+      let answer = deck['answer']
+    });
 }

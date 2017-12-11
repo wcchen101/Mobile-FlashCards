@@ -43,7 +43,7 @@ class IndividualDeck extends Component {
         <TouchableOpacity
            onPress={() => this.props.navigation.navigate(
            'QuizView',
-           {QuizView: individualDeck}
+           {individualDeck: individualDeck}
            )}
            style={[styles.button, {backgroundColor: dogerBlue}]}>
           <Text> Start Quiz </Text>
