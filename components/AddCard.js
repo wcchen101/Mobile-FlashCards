@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
-import { createDeckTitle, getDecks } from '../utils/helpers'
+import { createDeckTitle, getDecks, createCard } from '../utils/helpers'
 import { NavigationActions } from 'react-navigation'
 
 class AddCard extends Component {
@@ -29,8 +29,8 @@ class AddCard extends Component {
     let deck = this.state.cardCategory
     cardSet['question'] = this.state.cardQuestion
     cardSet['answer'] = this.state.cardAnswer
+    console.log('card create', deck, cardSet)
     createCard(deck, cardSet)
-    console.log('press',deck, cardSet, )
     this.props.navigation.navigate('Home')
 
   }

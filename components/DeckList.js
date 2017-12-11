@@ -17,7 +17,6 @@ class DeckList extends Component {
       .then((data) => this.setState({
         decks: JSON.parse(data)
       }))
-
   }
   checkIndividualDeck = () => {
     this.toIndividualDeck();
@@ -27,7 +26,9 @@ class DeckList extends Component {
   }
   render() {
     const { decks } = this.state
+
     console.log('type',typeof decks, decks)
+
     return (
       <ScrollView>
         <View style={styles.container}>

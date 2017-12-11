@@ -20,17 +20,19 @@ export function createDeckTitle(deck) {
     });
 }
 export function getDecks() {
-  // AsyncStorage.removeItem('MyDecksStore:decks')
+  AsyncStorage.removeItem('MyDecksStore:decks')
   return AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {console.log(JSON.parse(data))});
 }
+
 export function createCard(deckTitle, card) {
   let newDecks = [];
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
-      data[deckTitle]['questions'].concat(card)
+      data = JSON.parse(data)
+      data[deckTitle]['questions'].push(card)
       AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(data));
-      console.log('done create new card', data);
+      console.log('done create new card', data[deckTitle]['questions']);
     });
 
 }
