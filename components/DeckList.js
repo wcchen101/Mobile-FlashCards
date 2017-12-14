@@ -9,7 +9,7 @@ class DeckList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      decks: {}
+      decks: []
     };
   }
   componentDidMount() {
@@ -32,7 +32,7 @@ class DeckList extends Component {
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.topTap}>
-            <Text>Decks</Text>
+            <Text style={{fontWeight:'bold'}}>Decks</Text>
           </View>
           <View style={styles.container}>
             {decks !== undefined && decks && (Object.keys(decks).map((key) => (
@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
   topTap: {
     justifyContent: 'center',
     padding: 20,
-    borderColor: 'yellow',
-    borderWidth: 2,
-    margin: 10,
+    marginTop: 10,
+    borderBottomWidth: 2,
   },
   deckText: {
     margin: 20,

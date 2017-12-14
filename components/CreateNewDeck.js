@@ -9,7 +9,7 @@ class CreateNewDeck extends Component {
   constructor(props) {
     super(props);
     const deck = [];
-    this.state = { text: 'Deck Title' };
+    this.state = { text: 'new deck' };
   }
   createNewDeck = () => {
     let deck = {};
@@ -29,27 +29,29 @@ class CreateNewDeck extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.deckTop}>
-          <Text>New Deck Name: </Text>
+          <Text style={{fontWeight: 'bold'}}>New Deck Name </Text>
         </View>
         <View style={{margin: 20, padding: 10}}>
-          <Text style={styles.textTitle}> What is the title of your new deck? </Text>
+          <Text style={[styles.textTitle, {textAlign:'center'}]}> What is the title of your new deck? </Text>
         </View>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({text: text})}
-          value={this.state.text}
-        />
-        <TouchableOpacity
-           onPress={this.createNewDeck}
-           style={styles.button}>
-          <Text> Submit </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-           onPress={this.getCurrentDecks}
-           style={styles.button}>
-          <Text> Submit </Text>
-        </TouchableOpacity>
-        <Text>{this.state.text}</Text>
+        <View style={styles.subContainer}>
+          <TextInput
+            style={[styles.textInput]}
+            onChangeText={(text) => this.setState({text: text})}
+            value={this.state.text}
+          />
+          <TouchableOpacity
+             onPress={this.createNewDeck}
+             style={styles.button}>
+            <Text> Submit </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+             onPress={this.getCurrentDecks}
+             style={styles.button}>
+            <Text> Submit </Text>
+          </TouchableOpacity>
+          <Text>{this.state.text}</Text>
+        </View>
       </View>
     )
   }
@@ -61,12 +63,16 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     padding: 15,
   },
+  subContainer: {
+    flex: 1,
+    backgroundColor: white,
+    padding: 15,
+  },
   deckTop: {
     justifyContent: 'center',
     padding: 20,
     marginTop: 10,
-    borderColor: 'yellow',
-    borderWidth: 2,
+    borderBottomWidth: 2,
   },
   button: {
     alignItems: 'center',

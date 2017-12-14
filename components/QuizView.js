@@ -12,7 +12,9 @@ class QuizView extends Component {
     const deck = [];
     this.state = {
       quizSet: null,
+      questions: [],
       correctQuiz: 0,
+      currentQuizIndex: null,
     };
   }
   static navigationOptions = ({ navigation }) => {
@@ -32,11 +34,11 @@ class QuizView extends Component {
         console.log('quiz set: ', deck)
         console.log('quiz length', questions.length)
         console.log('question', questions)
-        console.log('answer', answer)
         this.setState({
           quizSet: deck,
           questions: deck['questions'],
-
+          currentQuizIndex: 0,
+          correctQuiz: 0,
         })
 
       });
@@ -52,68 +54,123 @@ class QuizView extends Component {
   getCurrentDecks = () => {
     getDecks();
   }
-  onPressAnwser = () => {
-
+  onCheckAnwser(answer) {
+    let curIndex = this.state.currentQuizIndex
+    let quizs = this.state.questions
+    console.log('quiz', quizs)
+    console.log('quiz ansewr', quizs[curIndex]['answer'])
+    if (quizs[curIndex]['answer'] === answer) {
+      console.log('yes')
+      this.setState({
+        correctQuiz: this.state.correctQuiz + 1,
+        currentQuizIndex: this.state.currentQuizIndex + 1,
+      })
+    } else {
+      console.log('no')
+      this.setState({
+        currentQuizIndex: this.state.currentQuizIndex + 1,
+      })
+    }
   }
   onPressCorrect = () => {
     //chekc with data and updated current correct
-    console.log('correct')
+    this.onCheckAnwser('yes')
+    // let curIndex = this.state.currentQuizIndex
+    // let quizs = this.state.questions
+    // console.log('quiz', quizs)
+    // console.log('quiz ansewr', quizs[curIndex]['answer'])
+    // if (quizs[curIndex]['answer'] === 'yes') {
+    //   this.setState({
+    //     correctQuiz: this.state.correctQuiz + 1,
+    //     currentQuizIndex: this.state.currentQuizIndex + 1,
+    //   })
+    // }
+    // console.log('correct')
   }
   onPressIncorrect = () => {
     //chekc with data and updated current correct
-    console.log('incorrect')
+    this.onCheckAnwser('no')
+    // let curIndex = this.state.currentQuizIndex
+    // let quizs = this.state.questions
+    // if (quizs[curIndex]['answer'] === 'no') {
+    //   this.setState({
+    //     currentQuizIndex: this.state.currentQuizIndex + 1,
+    //   })
+    // }
+    // console.log('incorrect')
   }
 
-  toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'CreateNewDeck'}))
+  onPressNextCard = () => {
+    console.log(this.state)
   }
   render() {
-    const { quizSet, correctQuiz } = this.state
+    const { quizSet, correctQuiz, currentQuizIndex } = this.state
     let questions = []
     if (quizSet) {
       questions = quizSet['questions']
     }
+    let correctPercentage = correctQuiz/questions.length * 100
+    let item = questions[currentQuizIndex]
     console.log(questions)
+    console.log('state', this.state)
     return (
       <View style={styles.container}>
         <View>
-          <Text>{correctQuiz}/{questions.length}</Text>
+          <Text>Congratulations! You complete the tests!</Text>
+          <Text>Your scores {correctPercentage}%</Text>
         </View>
-
-        {questions !== undefined && questions.length !== 0 && questions.map((item, index) => (
-          <View key={item}>
-            <FlipCard
-              style={styles.card}
-              friction={6}
-              perspective={1000}
-              flipHorizontal={true}
-              flipVertical={false}
-              flip={false}
-              clickable={true}
-              onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
-            >
-              {/* Face Side */}
-              <View >
-                <Text style={styles.textTitle}>{item['question']}</Text>
-              </View>
-              {/* Back Side */}
-              <View>
-                <Text style={styles.textTitle}>{item['answer']}</Text>
-              </View>
-            </FlipCard>
-            <TouchableOpacity
-               onPress={this.onPressCorrect}
-               style={[styles.button, {backgroundColor: green}]}>
-              <Text> Correct </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-               onPress={this.onPressIncorrect}
-               style={[styles.button, {backgroundColor: red}]}>
-              <Text> Incorrect </Text>
-            </TouchableOpacity>
-            <Text>{this.state.text}</Text>
+        { currentQuizIndex >= questions.length ? (
+          <View>
+            <Text>Result {correctQuiz}/{questions.length}</Text>
           </View>
-        ))}
+        )
+          :
+            (
+              <View>
+                {questions !== undefined && questions.length !== 0 && (
+                  <View key={item}>
+                    <FlipCard
+                      style={styles.card}
+                      friction={6}
+                      perspective={1000}
+                      flipHorizontal={true}
+                      flipVertical={false}
+                      flip={false}
+                      clickable={true}
+                      onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
+                    >
+                      {/* Face Side */}
+                      <View >
+                        <Text style={styles.textTitle}>{item['question']}</Text>
+                      </View>
+                      {/* Back Side */}
+                      <View>
+                        <Text style={styles.textTitle}>{item['answer']}</Text>
+                      </View>
+                    </FlipCard>
+                    <TouchableOpacity
+                       onPress={this.onPressCorrect}
+                       style={[styles.button, {backgroundColor: green}]}>
+                      <Text> Correct </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                       onPress={this.onPressIncorrect}
+                       style={[styles.button, {backgroundColor: red}]}>
+                      <Text> Incorrect </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                       onPress={this.onPressNextCard}
+                       style={[styles.button, {backgroundColor: red}]}>
+                      <Text> Next Card </Text>
+                    </TouchableOpacity>
+                    <Text>{this.state.text}</Text>
+                  </View>
+                )}
+              </View>
+            )
+
+        }
+
 
       </View>
     )
