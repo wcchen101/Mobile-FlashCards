@@ -5,7 +5,7 @@ import { purple, white } from '../utils/colors'
 import { getDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import IndividualDeck from './IndividualDeck'
-import { addDeck } from '../actions'
+import { addDeck, setDeck } from '../actions'
 
 class DeckList extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class DeckList extends Component {
       .then((data) => this.setState({
         decks: JSON.parse(data)
       }))
+
   }
   checkIndividualDeck = () => {
     this.toIndividualDeck();
@@ -101,4 +102,5 @@ function mapStateToProps(state, { navigation }) {
 
 export default connect(
   mapStateToProps,
+  { addDeck }
 )(DeckList)

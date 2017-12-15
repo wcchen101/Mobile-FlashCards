@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
-import { addDeck, setDeck } from '../actions/index'
+import { addDeck, setDeck, postNewDeck } from '../actions/index'
 import { purple, white } from '../utils/colors'
 import { createDeckTitle, getDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
@@ -17,7 +17,7 @@ class CreateNewDeck extends Component {
     deck["title"] = this.state.text
     deck["questions"] = []
     console.log(this.props)
-    this.props.dispatch(setDeck(deck))
+    this.props.postNewDeck(deck)
     createDeckTitle({deck});
     console.log('createnew deck', deck)
     this.props.navigation.navigate('Home')
@@ -104,5 +104,5 @@ function mapStateToProps(state, props) {
 }
 
 export default connect(
-  mapStateToProps,
+  mapStateToProps, { postNewDeck }
 )(CreateNewDeck)
