@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white, black, dogerBlue } from '../utils/colors'
-import { getDecks } from '../utils/helpers'
+import { getDecks } from '../utils/api'
 
 class IndividualDeck extends Component {
   constructor(props) {

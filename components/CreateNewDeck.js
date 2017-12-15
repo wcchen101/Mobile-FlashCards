@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
+import { addDeck, setDeck } from '../actions/index'
 import { purple, white } from '../utils/colors'
-import { createDeckTitle, getDecks } from '../utils/helpers'
+import { createDeckTitle, getDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 
 class CreateNewDeck extends Component {
@@ -15,7 +16,9 @@ class CreateNewDeck extends Component {
     let deck = {};
     deck["title"] = this.state.text
     deck["questions"] = []
-    createDeckTitle(deck);
+    console.log(this.props)
+    this.props.dispatch(setDeck(deck))
+    createDeckTitle({deck});
     console.log('createnew deck', deck)
     this.props.navigation.navigate('Home')
   }
@@ -91,24 +94,15 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 25,
     justifyContent: 'center',
-
   }
 })
 
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps(state, props) {
 
   return {
-
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-
-  return {
-
-  }
-}
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(CreateNewDeck)

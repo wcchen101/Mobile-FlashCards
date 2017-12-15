@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
-import { createDeckTitle, getDecks, createCard } from '../utils/helpers'
+import { createDeckTitle, getDecks, createCard } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
+import { addCard } from '../actions'
+
 
 class AddCard extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class AddCard extends Component {
       cardCategory: this.props.navigation.state.params.AddCard
     })
   }
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation, screenProps }) => {
     return {
       title: 'Add Card'
     }
@@ -31,6 +33,7 @@ class AddCard extends Component {
     cardSet['answer'] = this.state.cardAnswer
     console.log('card create', deck, cardSet)
     createCard(deck, cardSet)
+
     this.props.navigation.navigate('Home')
 
   }
@@ -110,13 +113,6 @@ function mapStateToProps(state, { navigation }) {
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-
-  return {
-
-  }
-}
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(AddCard)

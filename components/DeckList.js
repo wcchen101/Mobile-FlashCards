@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity  } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
-import { getDecks } from '../utils/helpers'
+import { getDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import IndividualDeck from './IndividualDeck'
+import { addDeck } from '../actions'
+
 class DeckList extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +15,8 @@ class DeckList extends Component {
     };
   }
   componentDidMount() {
+    console.log('adddeck', this.props)
+
     AsyncStorage.getItem('MyDecksStore:decks')
       .then((data) => this.setState({
         decks: JSON.parse(data)
@@ -23,11 +27,12 @@ class DeckList extends Component {
   }
   toIndividualDeck = () => {
     this.props.navigation.dispatch(NavigationActions.back({key: 'DeckList'}))
+
   }
   render() {
     const { decks } = this.state
     console.log('type',typeof decks, decks)
-
+    console.log('deck props', this.props)
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -88,17 +93,12 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state, { navigation }) {
+  console.log('state decks', state.decks)
   return {
-
+    decks: state.decks,
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-  return {
-
-  }
-}
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(DeckList)

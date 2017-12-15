@@ -3,7 +3,7 @@ import FlipCard from 'react-native-flip-card'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white, green, red } from '../utils/colors'
-import { createDeckTitle, getDecks } from '../utils/helpers'
+import { createDeckTitle, getDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 
 class QuizView extends Component {
@@ -113,20 +113,20 @@ class QuizView extends Component {
     let item = questions[currentQuizIndex]
     console.log(questions)
     console.log('state', this.state)
+    console.log(currentQuizIndex >= questions.length, currentQuizIndex, 'questions len', questions.length)
     return (
       <View style={styles.container}>
-        <View>
-          <Text>Congratulations! You complete the tests!</Text>
-          <Text>Your scores {correctPercentage}%</Text>
-        </View>
         { currentQuizIndex >= questions.length ? (
           <View>
-            <Text>Result {correctQuiz}/{questions.length}</Text>
+            <Text>Congratulations! You complete the tests!</Text>
+            <Text>Your scores {correctPercentage}%</Text>
+
           </View>
         )
           :
             (
               <View>
+                <Text>Result {correctQuiz}/{questions.length}</Text>
                 {questions !== undefined && questions.length !== 0 && (
                   <View key={item}>
                     <FlipCard
@@ -211,8 +211,10 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    margin: 15,
+    margin: 30,
     padding: 10,
+    height: 200,
+    width: 300,
     justifyContent: 'center',
   }
 })
