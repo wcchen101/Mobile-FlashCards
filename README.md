@@ -9,8 +9,8 @@
 - yarn start
 - Run on either native app or virtual machine
 
-##Authors
+## Authors
 - Wei-Chung Chen(Me)
 
-##Reference
+## Reference
 - react-native-flip-card: https://www.npmjs.com/package/react-native-flip-card
