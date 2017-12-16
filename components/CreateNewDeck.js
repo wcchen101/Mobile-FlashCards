@@ -16,11 +16,14 @@ class CreateNewDeck extends Component {
     let deck = {};
     deck["title"] = this.state.text
     deck["questions"] = []
-    console.log(this.props)
-    this.props.postNewDeck(deck)
+    console.log('create deck props',this.props)
+    // this.props.postNewDeck(deck)
     createDeckTitle({deck});
     console.log('createnew deck', deck)
-    this.props.navigation.navigate('Home')
+    this.props.navigation.navigate(
+    'IndividualDeck',
+    {individualDeck: deck["title"]}
+    )
   }
   getCurrentDecks = () => {
     getDecks();
