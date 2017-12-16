@@ -21,4 +21,6 @@ to prepare the exam or memorize some important concepts.
 - Wei-Chung Chen(Me)
 
 ## Reference
+- Udacity React Nanodegree course materials
+- Udacity React Native Labs
 - react-native-flip-card: https://www.npmjs.com/package/react-native-flip-card
