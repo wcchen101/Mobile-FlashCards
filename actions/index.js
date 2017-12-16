@@ -6,9 +6,11 @@ export const SET_DECK = 'SET_DECK'
 export function receiveDecks(decks) {
   return {
     type: 'RECEIVE_DECKS',
-    decks: getDecks
+    decks: getDecks,
+
   }
 }
+
 
 export function addDeck() {
   console.log('dispatch add deck')

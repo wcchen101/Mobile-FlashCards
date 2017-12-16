@@ -158,20 +158,12 @@ class QuizView extends Component {
                        style={[styles.button, {backgroundColor: red}]}>
                       <Text> Incorrect </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                       onPress={this.onPressNextCard}
-                       style={[styles.button, {backgroundColor: red}]}>
-                      <Text> Next Card </Text>
-                    </TouchableOpacity>
                     <Text>{this.state.text}</Text>
                   </View>
                 )}
               </View>
             )
-
         }
-
-
       </View>
     )
   }

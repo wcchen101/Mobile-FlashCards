@@ -18,7 +18,10 @@ class CreateNewDeck extends Component {
     deck["questions"] = []
     console.log('create deck props',this.props)
     // this.props.postNewDeck(deck)
-    createDeckTitle({deck});
+    // createDeckTitle({deck});
+    this.setState({
+      text: 'new deck',
+    })
     console.log('createnew deck', deck)
     this.props.navigation.navigate(
     'IndividualDeck',
@@ -48,11 +51,6 @@ class CreateNewDeck extends Component {
           />
           <TouchableOpacity
              onPress={this.createNewDeck}
-             style={styles.button}>
-            <Text> Submit </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-             onPress={this.getCurrentDecks}
              style={styles.button}>
             <Text> Submit </Text>
           </TouchableOpacity>
