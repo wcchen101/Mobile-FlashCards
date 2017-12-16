@@ -98,12 +98,7 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state, props) {
-
-  return {
-  }
-}
 
 export default connect(
-  mapStateToProps, { postNewDeck }
+  null, { postNewDeck }
 )(CreateNewDeck)

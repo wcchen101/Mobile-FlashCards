@@ -40,7 +40,6 @@ class QuizView extends Component {
           currentQuizIndex: 0,
           correctQuiz: 0,
         })
-
       });
     console.log('quiz set: ', this.state.quizSet)
   }
@@ -72,37 +71,7 @@ class QuizView extends Component {
       })
     }
   }
-  onPressCorrect = () => {
-    //chekc with data and updated current correct
-    this.onCheckAnwser('yes')
-    // let curIndex = this.state.currentQuizIndex
-    // let quizs = this.state.questions
-    // console.log('quiz', quizs)
-    // console.log('quiz ansewr', quizs[curIndex]['answer'])
-    // if (quizs[curIndex]['answer'] === 'yes') {
-    //   this.setState({
-    //     correctQuiz: this.state.correctQuiz + 1,
-    //     currentQuizIndex: this.state.currentQuizIndex + 1,
-    //   })
-    // }
-    // console.log('correct')
-  }
-  onPressIncorrect = () => {
-    //chekc with data and updated current correct
-    this.onCheckAnwser('no')
-    // let curIndex = this.state.currentQuizIndex
-    // let quizs = this.state.questions
-    // if (quizs[curIndex]['answer'] === 'no') {
-    //   this.setState({
-    //     currentQuizIndex: this.state.currentQuizIndex + 1,
-    //   })
-    // }
-    // console.log('incorrect')
-  }
 
-  onPressNextCard = () => {
-    console.log(this.state)
-  }
   render() {
     const { quizSet, correctQuiz, currentQuizIndex } = this.state
     let questions = []

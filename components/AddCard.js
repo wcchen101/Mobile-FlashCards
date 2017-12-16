@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 25,
     justifyContent: 'center',
-
   }
 })
 
