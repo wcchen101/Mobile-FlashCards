@@ -22,11 +22,7 @@ class CreateNewDeck extends Component {
     dispatch(this.props.postNewDeck({
       [key]: deck,
     }))
-    // createDeckTitle({deck});
-    // this.setState({
-    //   text: 'new deck',
-    // })
-    console.log('createnew deck', deck)
+
     this.props.navigation.navigate(
     'IndividualDeck',
     {individualDeck: deck["title"]}

@@ -1,8 +1,7 @@
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const POST_NEW_DECK = 'POST_NEW_DECK'
 export const POST_NEW_QUIZ = 'POST_NEW_QUIZ'
-export const SET_DECK = 'SET_DECK'
-export const ADD_DECK = 'ADD_DECK'
+export const RECEIVE_QUIZS = 'RECEIVE_QUIZS'
 export function receiveDecks(decks) {
   return {
     type: 'RECEIVE_DECKS',
@@ -16,9 +15,15 @@ export function postNewDeck(deck) {
     deck,
   }
 }
-export function postNewQuiz(card) {
+export function postNewQuiz(quiz) {
   return {
     type: 'POST_NEW_QUIZ',
-    deck,
+    quiz,
+  }
+}
+export function receiveQuizs(quizSet) {
+  return {
+    type: 'RECEIVE_QUIZS',
+    quizSet,
   }
 }

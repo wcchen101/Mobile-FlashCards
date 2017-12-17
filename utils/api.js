@@ -22,11 +22,12 @@ export function createDeckTitle({deck}) {
     });
 }
 export function getDecks() {
+  //remove in the future
   AsyncStorage.removeItem('MyDecksStore:decks')
   return AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {console.log(JSON.parse(data))});
 }
-export function createCard({deckTitle, card}) {
+export function createCard(deckTitle, card) {
   let newDecks = [];
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
@@ -37,13 +38,14 @@ export function createCard({deckTitle, card}) {
     });
 }
 
-export function getQuiz(deck) {
-  AsyncStorage.getItem('MyDecksStore:decks')
+export function getQuiz(individualDeck) {
+  return AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
       data = JSON.parse(data)
-      let deck = data[deck]
-      let question = deck['question']
-      let count = deck['question'].length
-      let answer = deck['answer']
-    });
+      let deck = data[individualDeck]
+      let questions = deck['questions']
+      let answer = deck['questions']['answer']
+      return deck
+    })
+
 }

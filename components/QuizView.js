@@ -3,18 +3,18 @@ import FlipCard from 'react-native-flip-card'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white, green, red } from '../utils/colors'
-import { createDeckTitle, getDecks } from '../utils/api'
+import { createDeckTitle, getDecks, getQuiz } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
+import { receiveQuizs } from '../actions'
+import { AppLoading } from 'expo'
 
 class QuizView extends Component {
   constructor(props) {
     super(props);
-    const deck = [];
     this.state = {
-      quizSet: null,
       questions: [],
       correctQuiz: 0,
-      currentQuizIndex: null,
+      currentQuizIndex: 0,
     };
   }
   static navigationOptions = ({ navigation }) => {
@@ -25,22 +25,12 @@ class QuizView extends Component {
   componentDidMount() {
     const { individualDeck } = this.props.navigation.state.params
     console.log(individualDeck)
-    AsyncStorage.getItem('MyDecksStore:decks')
-      .then((data) => {
-        data = JSON.parse(data)
-        let deck = data[individualDeck]
-        let questions = deck['questions']
-        let answer = deck['questions']['answer']
-        console.log('quiz set: ', deck)
-        console.log('quiz length', questions.length)
-        console.log('question', questions)
-        this.setState({
-          quizSet: deck,
-          questions: deck['questions'],
-          currentQuizIndex: 0,
-          correctQuiz: 0,
-        })
-      });
+    getQuiz(individualDeck)
+      .then((quizSet) => {this.props.receiveQuizs(quizSet['questions'])})
+
+    getQuiz(individualDeck)
+      .then((quizSet) => this.setState({questions: quizSet['questions']}))
+
     console.log('quiz set: ', this.state.quizSet)
   }
   checkQuizAnswer() {
@@ -56,8 +46,6 @@ class QuizView extends Component {
   onCheckAnwser(answer) {
     let curIndex = this.state.currentQuizIndex
     let quizs = this.state.questions
-    console.log('quiz', quizs)
-    console.log('quiz ansewr', quizs[curIndex]['answer'])
     if (quizs[curIndex]['answer'] === answer) {
       console.log('yes')
       this.setState({
@@ -71,25 +59,31 @@ class QuizView extends Component {
       })
     }
   }
-
+  onPressIncorrect = () => {
+    this.onCheckAnwser('no')
+  }
+  onPressCorrect = () => {
+    this.onCheckAnwser('yes')
+  }
   render() {
-    const { quizSet, correctQuiz, currentQuizIndex } = this.state
-    let questions = []
+    const { quizSet } = this.props.quizSet
+    const { correctQuiz, currentQuizIndex } = this.state
+    let questions = undefined
     if (quizSet) {
-      questions = quizSet['questions']
+      questions = quizSet
     }
+    if (quizSet == undefined || !quizSet || questions == undefined) {
+      return <AppLoading/>
+    }
+    console.log('quiz', this.props)
     let correctPercentage = correctQuiz/questions.length * 100
     let item = questions[currentQuizIndex]
-    console.log(questions)
-    console.log('state', this.state)
-    console.log(currentQuizIndex >= questions.length, currentQuizIndex, 'questions len', questions.length)
     return (
       <View style={styles.container}>
-        { currentQuizIndex >= questions.length ? (
+        { questions !== undefined && currentQuizIndex >= questions.length ? (
           <View>
             <Text>Congratulations! You complete the tests!</Text>
             <Text>Your scores {correctPercentage}%</Text>
-
           </View>
         )
           :
@@ -180,19 +174,14 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps(quizSet) {
+  console.log('mapstatetoprops', quizSet)
   return {
-
+    quizSet,
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-
-  return {
-
-  }
-}
 export default connect(
-  null,
-  null,
+  mapStateToProps,
+  { receiveQuizs },
 )(QuizView)

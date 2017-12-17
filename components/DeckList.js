@@ -17,7 +17,6 @@ class DeckList extends Component {
   }
   componentDidMount() {
     const { dispatch } = this.props.navigation
-    console.log('adddeck', this.props)
     fetchDecksResult()
       .then((decks) => dispatch(this.props.receiveDecks(decks)))
       .then(() => this.setState(() => ({ready: true})))
@@ -33,7 +32,6 @@ class DeckList extends Component {
   render() {
     let { decks } = this.props.decks
     const { ready } = this.state
-    console.log('deck props', this.props)
     if (ready === false) {
       return <AppLoading/>
     }
