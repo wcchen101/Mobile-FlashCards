@@ -2,27 +2,23 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity  } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
-import { getDecks } from '../utils/api'
+import { getDecks, fetchDecksResult } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import IndividualDeck from './IndividualDeck'
-import { addDeck, setDeck } from '../actions'
+import { addDeck, receiveDecks } from '../actions'
 
 class DeckList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      decks: []
-    };
   }
   componentDidMount() {
+    const { dispatch } = this.props.navigation
     console.log('adddeck', this.props)
-
-    AsyncStorage.getItem('MyDecksStore:decks')
-      .then((data) => this.setState({
-        decks: JSON.parse(data)
-      }))
+    fetchDecksResult()
+      .then((decks) => dispatch(this.props.receiveDecks(decks)))
 
   }
+
   checkIndividualDeck = () => {
     this.toIndividualDeck();
   }
@@ -31,8 +27,8 @@ class DeckList extends Component {
 
   }
   render() {
-    const { decks } = this.state
-    console.log('type',typeof decks, decks)
+    let { decks } = this.props.decks
+
     console.log('deck props', this.props)
     return (
       <ScrollView>
@@ -93,14 +89,14 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state, { navigation }) {
-  console.log('state decks', state.decks)
+function mapStateToProps(decks) {
+  console.log('dekcs', decks)
   return {
-    decks: state.decks,
+    decks,
   }
 }
 
 export default connect(
   mapStateToProps,
-  { addDeck }
+  { addDeck, receiveDecks }
 )(DeckList)

@@ -4,7 +4,10 @@ import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector
 import { red, orange, blue, lightPurp, pink, white } from './colors'
 import { Notifications, Permissions } from 'expo'
 
-
+export function fetchDecksResult() {
+  return AsyncStorage.getItem('MyDecksStore:decks')
+    .then((data) => JSON.parse(data))
+}
 export function createDeckTitle({deck}) {
   let newDecks = {};
   console.log('deck title', deck['title'])
@@ -35,16 +38,7 @@ export function createCard({deckTitle, card}) {
       console.log('done create new card', data[deckTitle]['questions']);
     });
 }
-// export function createCard(deckTitle, card) {
-//   let newDecks = [];
-//   AsyncStorage.getItem('MyDecksStore:decks')
-//     .then((data) => {
-//       data = JSON.parse(data)
-//       data[deckTitle]['questions'].push(card)
-//       AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(data));
-//       console.log('done create new card', data[deckTitle]['questions']);
-//     });
-// }
+
 export function getQuiz(deck) {
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {

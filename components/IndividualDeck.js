@@ -106,6 +106,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
   }
 }
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  null,
+  null,
 )(IndividualDeck)

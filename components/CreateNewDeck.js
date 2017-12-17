@@ -13,12 +13,16 @@ class CreateNewDeck extends Component {
     this.state = { text: 'new deck' };
   }
   createNewDeck = () => {
+    const { dispatch } = this.props.navigation
     let deck = {};
+    let key = this.state.text
     deck["title"] = this.state.text
     deck["questions"] = []
     console.log('create deck props',this.props)
-    // this.props.postNewDeck(deck)
-    // createDeckTitle({deck});
+    dispatch(postNewDeck({
+      [key]: deck,
+    }))
+    createDeckTitle({deck});
     this.setState({
       text: 'new deck',
     })
@@ -98,7 +102,13 @@ const styles = StyleSheet.create({
   }
 })
 
+function mapStateToProps(state) {
+  const decks = state.decks
+  return {
+    decks
+  }
+}
 
 export default connect(
-  null, { postNewDeck }
+  mapStateToProps , { postNewDeck }
 )(CreateNewDeck)

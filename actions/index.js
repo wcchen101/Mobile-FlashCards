@@ -6,26 +6,19 @@ export const SET_DECK = 'SET_DECK'
 export function receiveDecks(decks) {
   return {
     type: 'RECEIVE_DECKS',
-    decks: getDecks,
-
+    decks,
   }
 }
 
+// export function getDecks() {
+//   console.log('dispatch add deck')
+//   return (
+//     AsyncStorage.getItem('MyDecksStore:decks')
+//       .then(res => JSON.parse(res))
+//       .then(data => dispatch(setDeck(data)))
+// )
+// }
 
-export function addDeck() {
-  console.log('dispatch add deck')
-  return (
-    AsyncStorage.getItem('MyDecksStore:decks')
-      .then(res => JSON.parse(res))
-      .then(data => dispatch(setDeck(data)))
-)
-}
-export function setDeck(deck) {
-  return {
-    type: 'SET_DECK',
-    deck,
-  }
-}
 export function postNewDeck(deck) {
   return {
     type: 'POST_NEW_DECK',

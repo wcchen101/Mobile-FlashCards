@@ -113,5 +113,5 @@ function mapStateToProps(state, { navigation }) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
 )(AddCard)
