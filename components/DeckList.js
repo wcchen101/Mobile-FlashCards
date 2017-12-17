@@ -5,18 +5,22 @@ import { purple, white } from '../utils/colors'
 import { getDecks, fetchDecksResult } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import IndividualDeck from './IndividualDeck'
-import { addDeck, receiveDecks } from '../actions'
+import { receiveDecks } from '../actions'
+import { AppLoading } from 'expo'
 
 class DeckList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      ready: false,
+    }
   }
   componentDidMount() {
     const { dispatch } = this.props.navigation
     console.log('adddeck', this.props)
     fetchDecksResult()
       .then((decks) => dispatch(this.props.receiveDecks(decks)))
-
+      .then(() => this.setState(() => ({ready: true})))
   }
 
   checkIndividualDeck = () => {
@@ -28,8 +32,11 @@ class DeckList extends Component {
   }
   render() {
     let { decks } = this.props.decks
-
+    const { ready } = this.state
     console.log('deck props', this.props)
+    if (ready === false) {
+      return <AppLoading/>
+    }
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -90,13 +97,12 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(decks) {
-  console.log('dekcs', decks)
   return {
-    decks,
+    decks
   }
 }
 
 export default connect(
   mapStateToProps,
-  { addDeck, receiveDecks }
+  { receiveDecks }
 )(DeckList)

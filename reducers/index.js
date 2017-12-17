@@ -1,22 +1,16 @@
 import { combineReducers } from 'redux'
-import { SET_DECKS, POST_NEW_DECK, ADD_QUIZ, RECEIVE_DECKS } from '../actions'
+import { SET_DECKS, POST_NEW_DECK, POST_NEW_QUIZ, RECEIVE_DECKS } from '../actions'
 
 function decks(state = {}, action) {
-  console.log('reducer', action)
+  console.log('type', action.type)
   switch(action.type) {
-    case SET_DECKS:
-      let decks = []
-      for (let i = 0; i < action.decks.length; i++) {
-        decks.push(action.decks[i])
-      }
-      return decks
     case POST_NEW_DECK:
+      console.log('POST_NEW_DECK')
       return {
         ...state,
-        ...action.decks,
+        ...action.deck,
       }
     case RECEIVE_DECKS:
-      console.log('receive decks', action.decks)
       return {
         ...state,
         ...action.decks,
@@ -26,8 +20,9 @@ function decks(state = {}, action) {
   }
 }
 function quizs(state={}, action) {
+  console.log('reducer', action)
   switch(action.type) {
-    case ADD_QUIZ:
+    case POST_NEW_QUIZ:
       return {
         ...state,
         ...action.quizs

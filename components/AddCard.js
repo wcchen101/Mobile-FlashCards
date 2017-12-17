@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
 import { createDeckTitle, getDecks, createCard } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
-import { addCard } from '../actions'
+import { postNewQuiz } from '../actions'
 
 
 class AddCard extends Component {
@@ -18,7 +18,7 @@ class AddCard extends Component {
   }
   componentDidMount() {
     this.setState({
-      cardCategory: this.props.navigation.state.params.AddCard
+      cardCategory: this.props.navigation.state.params.postNewQuiz
     })
   }
   static navigationOptions = ({ navigation, screenProps }) => {
@@ -27,12 +27,13 @@ class AddCard extends Component {
     }
   }
   createNewCard = () => {
+    const { dispatch } = this.props.navigate
     let cardSet = {}
     let deck = this.state.cardCategory
     cardSet['question'] = this.state.cardQuestion
     cardSet['answer'] = this.state.cardAnswer
-    console.log('card create', deck, cardSet)
-    createCard(deck, cardSet)
+    // dispatch()
+    createCard({deck, cardSet})
 
     this.props.navigation.navigate('Home')
 
@@ -106,12 +107,13 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps(state) {
+  const { quizs } = state.quizs
   return {
-
+    quizs
   }
 }
 
 export default connect(
-  null,
+  mapStateToProps,
 )(AddCard)

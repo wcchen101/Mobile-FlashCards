@@ -10,7 +10,6 @@ export function fetchDecksResult() {
 }
 export function createDeckTitle({deck}) {
   let newDecks = {};
-  console.log('deck title', deck['title'])
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
       if (data !== undefined && data !== null) {
@@ -20,7 +19,6 @@ export function createDeckTitle({deck}) {
       }
       newDecks[deck['title']] = deck;
       AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(newDecks));
-      console.log('done create new deck', newDecks);
     });
 }
 export function getDecks() {
