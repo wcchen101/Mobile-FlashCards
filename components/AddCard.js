@@ -79,39 +79,6 @@ class AddCard extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-    padding: 15,
-  },
-  deckTop: {
-    justifyContent: 'center',
-    padding: 20,
-    marginTop: 10,
-    borderColor: 'yellow',
-    borderWidth: 2,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    margin: 10,
-    width: 300,
-    height: 50,
-    borderRadius: 10,
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    margin: 10,
-  },
-  textTitle: {
-    fontSize: 25,
-    justifyContent: 'center',
-  }
-})
 
 function mapStateToProps(quizSet) {
   return {

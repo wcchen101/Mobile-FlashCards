@@ -15,7 +15,9 @@ to prepare the exam or memorize some important concepts.
 - Run on either native app or virtual machine
 
 ## External Library
+- Expo
 - React-native-flip-card
+- AppLoading
 
 ## Authors
 - Wei-Chung Chen(Me)

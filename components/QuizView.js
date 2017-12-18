@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import FlipCard from 'react-native-flip-card'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
-import { purple, white, green, red } from '../utils/colors'
+import { purple, green, red } from '../utils/colors'
 import { createDeckTitle, getDecks, getQuiz } from '../utils/api'
+import { NOTIFICATION_KEY, clearLocalNotification, setLocalNotification } from '../utils/helpers'
 import { NavigationActions } from 'react-navigation'
 import { receiveQuizs } from '../actions'
 import { AppLoading } from 'expo'
@@ -58,6 +59,10 @@ class QuizView extends Component {
         currentQuizIndex: this.state.currentQuizIndex + 1,
       })
     }
+    if (quizs !== undefined && currentQuizIndex >= questions.length - 1) {
+      clearLocalNotification()
+        .then(setLocalNotification)
+    }
   }
   onPressIncorrect = () => {
     this.onCheckAnwser('no')
@@ -75,6 +80,7 @@ class QuizView extends Component {
     if (quizSet == undefined || !quizSet || questions == undefined) {
       return <AppLoading/>
     }
+
     console.log('quiz', this.props)
     let correctPercentage = correctQuiz/questions.length * 100
     let item = questions[currentQuizIndex]
@@ -133,37 +139,6 @@ class QuizView extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-    padding: 15,
-  },
-  deckTop: {
-    justifyContent: 'center',
-    padding: 20,
-    marginTop: 10,
-    borderColor: 'yellow',
-    borderWidth: 2,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    margin: 10,
-    width: 300,
-    height: 50,
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    margin: 10,
-  },
-  textTitle: {
-    fontSize: 25,
-    justifyContent: 'center',
-
-  },
   card: {
     flex: 1,
     margin: 30,
