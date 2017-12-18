@@ -18,7 +18,6 @@ function decks(state = {}, action) {
   }
 }
 function quizSet(state=[], action) {
-  console.log('reducer', action)
   const { quiz } = action
   switch(action.type) {
     case POST_NEW_QUIZ:
@@ -27,7 +26,6 @@ function quizSet(state=[], action) {
         ...action.quiz,
       ]
     case RECEIVE_QUIZS:
-      console.log('quizset action', action.quizSet)
       return [
         ...state,
         ...action.quizSet,

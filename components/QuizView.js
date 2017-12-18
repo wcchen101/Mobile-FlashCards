@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import FlipCard from 'react-native-flip-card'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
-import { purple, green, red } from '../utils/colors'
+import { purple, white, green, red } from '../utils/colors'
 import { createDeckTitle, getDecks, getQuiz } from '../utils/api'
 import { NOTIFICATION_KEY, clearLocalNotification, setLocalNotification } from '../utils/helpers'
 import { NavigationActions } from 'react-navigation'
@@ -25,18 +25,14 @@ class QuizView extends Component {
   }
   componentDidMount() {
     const { individualDeck } = this.props.navigation.state.params
-    console.log(individualDeck)
     getQuiz(individualDeck)
       .then((quizSet) => {this.props.receiveQuizs(quizSet['questions'])})
 
     getQuiz(individualDeck)
       .then((quizSet) => this.setState({questions: quizSet['questions']}))
 
-    console.log('quiz set: ', this.state.quizSet)
   }
-  checkQuizAnswer() {
 
-  }
   createNewDeck = () => {
     createDeckTitle(this.state.text);
     this.toHome();
@@ -48,18 +44,16 @@ class QuizView extends Component {
     let curIndex = this.state.currentQuizIndex
     let quizs = this.state.questions
     if (quizs[curIndex]['answer'] === answer) {
-      console.log('yes')
       this.setState({
         correctQuiz: this.state.correctQuiz + 1,
-        currentQuizIndex: this.state.currentQuizIndex + 1,
+        currentQuizIndex: curIndex + 1,
       })
     } else {
-      console.log('no')
       this.setState({
-        currentQuizIndex: this.state.currentQuizIndex + 1,
+        currentQuizIndex: curIndex + 1,
       })
     }
-    if (quizs !== undefined && currentQuizIndex >= questions.length - 1) {
+    if (quizs !== undefined && curIndex >= quizs.length - 1) {
       clearLocalNotification()
         .then(setLocalNotification)
     }
@@ -139,6 +133,26 @@ class QuizView extends Component {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    margin: 10,
+    width: 300,
+    height: 50,
+    borderRadius: 10,
+  },
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    margin: 10,
+  },
+  textTitle: {
+    fontSize: 25,
+    justifyContent: 'center',
+
+  },
   card: {
     flex: 1,
     margin: 30,

@@ -61,10 +61,21 @@ class CreateNewDeck extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: white,
+    padding: 15,
+  },
   subContainer: {
     flex: 1,
     backgroundColor: white,
     padding: 15,
+  },
+  deckTop: {
+    justifyContent: 'center',
+    padding: 20,
+    marginTop: 10,
+    borderBottomWidth: 2,
   },
   button: {
     alignItems: 'center',

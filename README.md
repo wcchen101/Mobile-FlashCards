@@ -6,7 +6,7 @@ to prepare the exam or memorize some important concepts.
 
 ## Environment
 - MAC OS
-- React, Redux, React Native
+- JavaScript, React, Redux, React Native
 - Expo
 
 ## Usage
@@ -24,5 +24,5 @@ to prepare the exam or memorize some important concepts.
 
 ## Reference
 - Udacity React Nanodegree course materials
-- Udacity React Native Labs
+- Udacity React Native Labs materials 
 - react-native-flip-card: https://www.npmjs.com/package/react-native-flip-card

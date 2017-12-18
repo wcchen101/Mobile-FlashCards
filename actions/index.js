@@ -2,6 +2,7 @@ export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const POST_NEW_DECK = 'POST_NEW_DECK'
 export const POST_NEW_QUIZ = 'POST_NEW_QUIZ'
 export const RECEIVE_QUIZS = 'RECEIVE_QUIZS'
+
 export function receiveDecks(decks) {
   return {
     type: 'RECEIVE_DECKS',

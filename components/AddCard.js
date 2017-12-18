@@ -5,7 +5,7 @@ import { purple, white } from '../utils/colors'
 import { createDeckTitle, getDecks, createCard } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import { postNewQuiz } from '../actions/index'
-
+import { styles } from '../utils/helpers'
 
 class AddCard extends Component {
   constructor(props) {
@@ -78,7 +78,6 @@ class AddCard extends Component {
     )
   }
 }
-
 
 function mapStateToProps(quizSet) {
   return {

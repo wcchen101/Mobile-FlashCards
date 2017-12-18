@@ -2,7 +2,6 @@ import React from 'react'
 import { AsyncStorage, StyleSheet } from 'react-native'
 import { white } from './colors'
 import { Notifications, Permissions } from 'expo'
-
 const NOTIFICATION_KEY = 'MyDecksStore:notifications'
 
 export const styles = StyleSheet.create({
@@ -39,6 +38,7 @@ export const styles = StyleSheet.create({
   },
 })
 
+//Refer to React Native Labs materials
 function createNotification() {
   return {
     title: 'Time to quiz!',
@@ -55,6 +55,7 @@ function createNotification() {
   }
 }
 
+//Refer to React Native Labs materials
 export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
@@ -83,9 +84,10 @@ export function setLocalNotification() {
             }
         })
       }
-
     })
 }
+
+//Refer to React Native Labs materials
 export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync)
