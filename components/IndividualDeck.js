@@ -29,8 +29,8 @@ class IndividualDeck extends Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Text>{ individualDeck }</Text>
-          <Text>{this.state.cards}</Text>
+          <Text>Deck Title: { individualDeck }</Text>
+          <Text>Totol quiz: {this.state.cards}</Text>
         </View>
         <TouchableOpacity
            onPress={() => this.props.navigation.navigate(
@@ -94,17 +94,6 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state, { navigation }) {
-  return {
-
-  }
-}
-
-function mapDispatchToProps(dispatch, { navigation }) {
-  return {
-
-  }
-}
 export default connect(
   null,
   null,

@@ -32,6 +32,7 @@ export function createCard(deckTitle, card) {
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
       data = JSON.parse(data)
+      console.log('herer',data)
       data[deckTitle]['questions'].push(card)
       AsyncStorage.setItem('MyDecksStore:decks', JSON.stringify(data));
       console.log('done create new card', data[deckTitle]['questions']);

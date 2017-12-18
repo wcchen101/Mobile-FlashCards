@@ -18,11 +18,10 @@ class CreateNewDeck extends Component {
     let key = this.state.text
     deck["title"] = this.state.text
     deck["questions"] = []
-    console.log('create deck props',this.props)
     dispatch(this.props.postNewDeck({
       [key]: deck,
     }))
-
+    createDeckTitle({deck})
     this.props.navigation.navigate(
     'IndividualDeck',
     {individualDeck: deck["title"]}

@@ -71,9 +71,6 @@ class AddCard extends Component {
            style={styles.button}>
           <Text> Submit </Text>
         </TouchableOpacity>
-        <Text>{this.state.cardQuestion}</Text>
-        <Text>{this.state.cardAnswer}</Text>
-        <Text>{this.state.cardCategory}</Text>
       </View>
     )
   }
