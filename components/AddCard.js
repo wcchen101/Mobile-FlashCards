@@ -44,7 +44,7 @@ class AddCard extends Component {
     }
   }
   createNewCard = () => {
-    const { dispatch, navigate } = this.props.navigation
+    const { dispatch, navigate, goBack } = this.props.navigation
     const { decks } = this.state
     let cardSet = {}
     let deck = this.state.cardCategory
@@ -60,14 +60,7 @@ class AddCard extends Component {
     ))
 
     createCard(deck, cardSet)
-    //update decks
-    // fetchDecksResult()
-    //   .then((newDecks) => this.setState(decks: newDecks))
-    // fetchDecksResult()
-    //   .then((newDecks) => dispatch(this.props.receiveDecks(newDecks)))
-    //route back to individual deck
-    navigate('IndividualDeck', {individualDeck: deck})
-
+    this.props.navigation.dispatch(NavigationActions.back({individualDeck: deck}))
   }
   getCurrentDecks = () => {
     getDecks();
