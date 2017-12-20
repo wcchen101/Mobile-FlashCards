@@ -3,7 +3,6 @@ import { SET_DECKS, POST_NEW_DECK, POST_NEW_QUIZ, RECEIVE_DECKS, RECEIVE_QUIZS }
 import update from 'immutability-helper';
 
 function decks(state = {}, action) {
-  console.log('new decks', action.decks)
   switch(action.type) {
     case POST_NEW_DECK:
       return {

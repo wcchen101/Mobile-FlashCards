@@ -26,9 +26,10 @@ class QuizView extends Component {
   componentDidMount() {
     const { individualDeck } = this.props.navigation.state.params
     const { dispatch } = this.props.navigation
+    console.log('quiz view start quiz decl', individualDeck)
     getQuiz(individualDeck)
       .then((quizSet) => {
-        this.props.receiveQuizs(individualDeck, quizSet['questions'])
+        dispatch(this.props.receiveQuizs(individualDeck, quizSet['questions']))
       })
 
     getQuiz(individualDeck)
@@ -85,7 +86,7 @@ class QuizView extends Component {
           :
             (
               <View>
-                <Text>Result {correctQuiz}/{questions.length}</Text>
+                <Text>Your result: {correctQuiz}/{questions.length}</Text>
                 {questions !== undefined && questions.length !== 0 && (
                   <View key={item}>
                     <FlipCard

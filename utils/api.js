@@ -10,6 +10,7 @@ export function fetchDecksResult() {
 }
 export function createDeckTitle({deck}) {
   let newDecks = {};
+  // AsyncStorage.removeItem('MyDecksStore:decks')
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
       if (data !== undefined && data !== null) {
@@ -29,6 +30,7 @@ export function getDecks() {
 }
 export function createCard(deckTitle, card) {
   let newDecks = [];
+
   AsyncStorage.getItem('MyDecksStore:decks')
     .then((data) => {
       data = JSON.parse(data)

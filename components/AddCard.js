@@ -58,12 +58,13 @@ class AddCard extends Component {
       cardSet,
       deck,
     ))
+
     createCard(deck, cardSet)
     //update decks
-    fetchDecksResult()
-      .then((newDecks) => this.setState(decks: newDecks))
-    fetchDecksResult()
-      .then((newDecks) => dispatch(this.props.receiveDecks(newDecks)))
+    // fetchDecksResult()
+    //   .then((newDecks) => this.setState(decks: newDecks))
+    // fetchDecksResult()
+    //   .then((newDecks) => dispatch(this.props.receiveDecks(newDecks)))
     //route back to individual deck
     navigate('IndividualDeck', {individualDeck: deck})
 

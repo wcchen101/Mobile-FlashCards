@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, AsyncStorage, ScrollView, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white, black, dogerBlue } from '../utils/colors'
-import { getDecks } from '../utils/api'
+import { getDecks, fetchDecksResult } from '../utils/api'
+import { receiveDecks } from '../actions/index'
 
 class IndividualDeck extends Component {
   constructor(props) {
@@ -24,13 +25,25 @@ class IndividualDeck extends Component {
         decks: JSON.parse(data)
       }))
   }
+  componentDidMount() {
+    const { dispatch } = this.props.navigation
+    fetchDecksResult()
+      .then((decks) => dispatch(this.props.receiveDecks(decks)))
+
+    AsyncStorage.getItem('MyDecksStore:decks')
+      .then((data) => this.setState({
+        decks: JSON.parse(data)
+      }))
+  }
+
   render() {
     const { individualDeck } = this.props.navigation.state.params
+    let totalQuiz = this.props.decks.decks[individualDeck]['questions'].length
     return (
       <ScrollView>
         <View style={styles.container}>
           <Text>Deck Title: { individualDeck }</Text>
-          <Text>Totol quiz: {this.state.cards}</Text>
+          <Text>Totol quiz: {totalQuiz}</Text>
         </View>
         <TouchableOpacity
            onPress={() => this.props.navigation.navigate(
@@ -94,8 +107,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   }
 })
+function mapStateToProps(decks) {
+  return {
+    decks
+  }
+}
 
 export default connect(
-  null,
-  null,
+  mapStateToProps,
+  {receiveDecks},
 )(IndividualDeck)
