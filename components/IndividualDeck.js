@@ -38,7 +38,7 @@ class IndividualDeck extends Component {
            {AddCard: individualDeck}
            )}
            style={[styles.button, {backgroundColor: white}]}>
-          <Text> Add Card </Text>
+          <Text> Add New Questions </Text>
         </TouchableOpacity>
         <TouchableOpacity
            onPress={() => this.props.navigation.navigate(
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 300,
     height: 50,
+    borderRadius: 10,
   },
   deckCardText: {
     color: 'grey',

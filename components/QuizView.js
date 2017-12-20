@@ -25,20 +25,15 @@ class QuizView extends Component {
   }
   componentDidMount() {
     const { individualDeck } = this.props.navigation.state.params
+    const { dispatch } = this.props.navigation
     getQuiz(individualDeck)
-      .then((quizSet) => {this.props.receiveQuizs(quizSet['questions'])})
+      .then((quizSet) => {
+        this.props.receiveQuizs(individualDeck, quizSet['questions'])
+      })
 
     getQuiz(individualDeck)
       .then((quizSet) => this.setState({questions: quizSet['questions']}))
 
-  }
-
-  createNewDeck = () => {
-    createDeckTitle(this.state.text);
-    this.toHome();
-  }
-  getCurrentDecks = () => {
-    getDecks();
   }
   onCheckAnwser(answer) {
     let curIndex = this.state.currentQuizIndex
@@ -46,11 +41,11 @@ class QuizView extends Component {
     if (quizs[curIndex]['answer'] === answer) {
       this.setState({
         correctQuiz: this.state.correctQuiz + 1,
-        currentQuizIndex: curIndex + 1,
+        currentQuizIndex: this.state.currentQuizIndex + 1,
       })
     } else {
       this.setState({
-        currentQuizIndex: curIndex + 1,
+        currentQuizIndex: this.state.currentQuizIndex + 1,
       })
     }
     if (quizs !== undefined && curIndex >= quizs.length - 1) {
@@ -65,18 +60,19 @@ class QuizView extends Component {
     this.onCheckAnwser('yes')
   }
   render() {
-    const { quizSet } = this.props.quizSet
+    const { quizSet } = this.props
+    let { individualDeck } = this.props.navigation.state.params
+    console.log( this.props.navigation,'individual', individualDeck,'outside', this.props.quizSet)
     const { correctQuiz, currentQuizIndex } = this.state
     let questions = undefined
-    if (quizSet) {
-      questions = quizSet
+    if (individualDeck !== undefined && quizSet['decks']) {
+      questions = quizSet['decks'][individualDeck]['questions']
     }
     if (quizSet == undefined || !quizSet || questions == undefined) {
       return <AppLoading/>
     }
-
-    console.log('quiz', this.props)
     let correctPercentage = correctQuiz/questions.length * 100
+    console.log('item', questions[currentQuizIndex], 'index', currentQuizIndex, 'q', questions)
     let item = questions[currentQuizIndex]
     return (
       <View style={styles.container}>
@@ -164,7 +160,6 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(quizSet) {
-  console.log('mapstatetoprops', quizSet)
   return {
     quizSet,
   }

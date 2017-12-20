@@ -27,7 +27,6 @@ class DeckList extends Component {
   }
   toIndividualDeck = () => {
     this.props.navigation.dispatch(NavigationActions.back({key: 'DeckList'}))
-
   }
   render() {
     let { decks } = this.props.decks

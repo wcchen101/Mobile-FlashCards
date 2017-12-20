@@ -16,15 +16,18 @@ export function postNewDeck(deck) {
     deck,
   }
 }
-export function postNewQuiz(quiz) {
+export function postNewQuiz(decks, quiz, deck) {
   return {
     type: 'POST_NEW_QUIZ',
+    decks,
     quiz,
+    deck,
   }
 }
-export function receiveQuizs(quizSet) {
+export function receiveQuizs(deck, quiz) {
   return {
     type: 'RECEIVE_QUIZS',
-    quizSet,
+    quiz,
+    deck,
   }
 }

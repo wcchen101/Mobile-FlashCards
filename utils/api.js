@@ -48,5 +48,4 @@ export function getQuiz(individualDeck) {
       let answer = deck['questions']['answer']
       return deck
     })
-
 }

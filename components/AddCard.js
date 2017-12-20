@@ -2,24 +2,41 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white } from '../utils/colors'
-import { createDeckTitle, getDecks, createCard } from '../utils/api'
+import { createDeckTitle, getDecks, createCard, getQuiz, fetchDecksResult } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
-import { postNewQuiz } from '../actions/index'
+import { postNewQuiz, postNewDeck, receiveDecks } from '../actions/index'
 import { styles } from '../utils/helpers'
 
 class AddCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      decks: [],
+      questions: [] ,
       cardQuestion: 'Question',
       cardAnswer: 'Answer',
       cardCategory: null,
     };
   }
   componentDidMount() {
-    this.setState({
-      cardCategory: this.props.navigation.state.params.AddCard
-    })
+    const cardCategory = this.props.navigation.state.params.AddCard
+    getQuiz(cardCategory)
+      .then((quizSet) => this.setState({questions: quizSet['questions']}))
+      .then(() => this.setState({
+            cardCategory: cardCategory
+        }))
+    fetchDecksResult()
+      .then((decks) => this.setState({
+        decks: decks,
+      }))
+
+  }
+  componentWillUnmount() {
+    const cardCategory = this.props.navigation.state.params.AddCard
+    const { dispatch } = this.props.navigation
+    fetchDecksResult()
+      .then((decks) => dispatch(this.props.receiveDecks(decks)))
+
   }
   static navigationOptions = ({ navigation, screenProps }) => {
     return {
@@ -27,21 +44,28 @@ class AddCard extends Component {
     }
   }
   createNewCard = () => {
-    const { dispatch } = this.props.navigation
-    console.log('props quiz', this.props)
+    const { dispatch, navigate } = this.props.navigation
+    const { decks } = this.state
     let cardSet = {}
     let deck = this.state.cardCategory
-
-    console.log('deck here', deck)
+    let resDeck = this.state.decks
     cardSet['question'] = this.state.cardQuestion
     cardSet['answer'] = this.state.cardAnswer
-    let nextIndex = this.state.cardQuestion
-    dispatch(this.props.postNewQuiz({
-      [nextIndex]:cardSet,
-    }))
+    let nextIndex = this.state.cardQuestion.length
+    console.log('resDeck', resDeck)
+    dispatch(this.props.postNewQuiz(
+      decks,
+      cardSet,
+      deck,
+    ))
     createCard(deck, cardSet)
-
-    this.props.navigation.navigate('Home')
+    //update decks
+    fetchDecksResult()
+      .then((newDecks) => this.setState(decks: newDecks))
+    fetchDecksResult()
+      .then((newDecks) => dispatch(this.props.receiveDecks(newDecks)))
+    //route back to individual deck
+    navigate('IndividualDeck', {individualDeck: deck})
 
   }
   getCurrentDecks = () => {
@@ -76,12 +100,14 @@ class AddCard extends Component {
   }
 }
 
-function mapStateToProps(quizSet) {
+function mapStateToProps(quizSet, decks) {
+  console.log('ampe state to props', quizSet, decks)
   return {
-    quizSet
+    quizSet: quizSet,
+    decks: decks,
   }
 }
 
 export default connect(
-  mapStateToProps, { postNewQuiz }
+  mapStateToProps, { postNewQuiz, receiveDecks}
 )(AddCard)

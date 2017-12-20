@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
 import { SET_DECKS, POST_NEW_DECK, POST_NEW_QUIZ, RECEIVE_DECKS, RECEIVE_QUIZS } from '../actions'
+import update from 'immutability-helper';
 
 function decks(state = {}, action) {
+  console.log('new decks', action.decks)
   switch(action.type) {
     case POST_NEW_DECK:
       return {
@@ -17,20 +19,21 @@ function decks(state = {}, action) {
       return state
   }
 }
-function quizSet(state=[], action) {
-  const { quiz } = action
+function quizSet(state={}, action) {
+  const { quiz, deck, decks} = action
   switch(action.type) {
     case POST_NEW_QUIZ:
-      return [
-        ...state,
-        ...action.quiz,
-      ]
+      return update(decks[deck]['questions'],
+            {$push: [quiz]}
+      )
     case RECEIVE_QUIZS:
-      return [
+      return {
         ...state,
-        ...action.quizSet,
-      ]
-
+        [deck]: {
+          ...state[deck],
+          questions: quiz,
+        },
+      }
     default:
       return state
     }
