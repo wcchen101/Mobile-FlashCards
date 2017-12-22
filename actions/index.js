@@ -9,7 +9,6 @@ export function receiveDecks(decks) {
     decks,
   }
 }
-
 export function postNewDeck(deck) {
   return {
     type: 'POST_NEW_DECK',

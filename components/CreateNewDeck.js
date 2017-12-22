@@ -5,6 +5,7 @@ import { addDeck, setDeck, postNewDeck } from '../actions/index'
 import { purple, white } from '../utils/colors'
 import { createDeckTitle, getDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
+import { commonStyles } from '../utils/helpers'
 
 class CreateNewDeck extends Component {
   constructor(props) {
@@ -26,31 +27,29 @@ class CreateNewDeck extends Component {
     'IndividualDeck',
     {individualDeck: deck["title"]}
     )
+    this.setState({
+      text: 'new deck',
+    })
   }
-  getCurrentDecks = () => {
-    getDecks();
-  }
-  toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'CreateNewDeck'}))
-  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.deckTop}>
+      <View style={commonStyles.container}>
+        <View style={commonStyles.topTap}>
           <Text style={{fontWeight: 'bold'}}>New Deck Name </Text>
         </View>
         <View style={{margin: 20, padding: 10}}>
-          <Text style={[styles.textTitle, {textAlign:'center'}]}> What is the title of your new deck? </Text>
+          <Text style={[commonStyles.textTitle, {textAlign:'center'}]}> What is the title of your new deck? </Text>
         </View>
         <View style={styles.subContainer}>
           <TextInput
-            style={[styles.textInput]}
+            style={[commonStyles.textInput]}
             onChangeText={(text) => this.setState({text: text})}
             value={this.state.text}
           />
           <TouchableOpacity
              onPress={this.createNewDeck}
-             style={styles.button}>
+             style={commonStyles.button}>
             <Text> Submit </Text>
           </TouchableOpacity>
         </View>
@@ -60,49 +59,13 @@ class CreateNewDeck extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-    padding: 15,
-  },
   subContainer: {
     flex: 1,
     backgroundColor: white,
     padding: 15,
   },
-  deckTop: {
-    justifyContent: 'center',
-    padding: 20,
-    marginTop: 10,
-    borderBottomWidth: 2,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    margin: 10,
-    width: 300,
-    height: 50,
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    margin: 10,
-  },
-  textTitle: {
-    fontSize: 25,
-    justifyContent: 'center',
-  }
 })
 
-function mapStateToProps(state) {
-  const { decks } = state
-  return {
-    text: 'new deck'
-  }
-}
-
 export default connect(
-  mapStateToProps , { postNewDeck }
+  null , { postNewDeck }
 )(CreateNewDeck)

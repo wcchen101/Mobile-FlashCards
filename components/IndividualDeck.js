@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { purple, white, black, dogerBlue } from '../utils/colors'
 import { getDecks, fetchDecksResult } from '../utils/api'
 import { receiveDecks } from '../actions/index'
+import { commonStyles } from '../utils/helpers'
 
 class IndividualDeck extends Component {
   constructor(props) {
@@ -29,7 +30,6 @@ class IndividualDeck extends Component {
     const { dispatch } = this.props.navigation
     fetchDecksResult()
       .then((decks) => dispatch(this.props.receiveDecks(decks)))
-
     AsyncStorage.getItem('MyDecksStore:decks')
       .then((data) => this.setState({
         decks: JSON.parse(data)
@@ -41,77 +41,42 @@ class IndividualDeck extends Component {
     let totalQuiz = this.props.decks.decks[individualDeck]['questions'].length
     return (
       <ScrollView>
-        <View style={styles.container}>
+        <View style={commonStyles.container}>
           <Text>Deck Title: { individualDeck }</Text>
           <Text>Totol quiz: {totalQuiz}</Text>
         </View>
-        <TouchableOpacity
-           onPress={() => this.props.navigation.navigate(
-           'AddCard',
-           {AddCard: individualDeck}
-           )}
-           style={[styles.button, {backgroundColor: white}]}>
-          <Text> Add New Questions </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-           onPress={() => this.props.navigation.navigate(
-           'QuizView',
-           {individualDeck: individualDeck}
-           )}
-           style={[styles.button, {backgroundColor: dogerBlue}]}>
-          <Text> Start Quiz </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonView}>
+          <TouchableOpacity
+             onPress={() => this.props.navigation.navigate(
+             'AddCard',
+             {AddCard: individualDeck}
+             )}
+             style={[commonStyles.button, {backgroundColor: white}]}>
+            <Text> Add New Questions </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+             onPress={() => this.props.navigation.navigate(
+             'QuizView',
+             {individualDeck: individualDeck}
+             )}
+             style={[commonStyles.button, {backgroundColor: dogerBlue}]}>
+            <Text> Start Quiz </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  buttonView: {
     flex: 1,
-    backgroundColor: white,
-    padding: 15,
-  },
-  topTap: {
-    justifyContent: 'center',
-    padding: 20,
-    borderColor: 'yellow',
-    borderWidth: 2,
-    margin: 10,
-  },
-  deckText: {
-    margin: 20,
-    justifyContent: 'center',
-    padding: 10,
-    fontWeight: 'bold',
-  },
-  button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
     margin: 10,
-    width: 300,
-    height: 50,
-    borderRadius: 10,
   },
-  deckCardText: {
-    color: 'grey',
-    justifyContent: 'center',
-    margin: 5,
-  },
-  deckView: {
-    margin: 20,
-    justifyContent: 'center',
-    padding: 10,
-    borderWidth: 5,
-    borderRadius: 5,
-  }
 })
-function mapStateToProps(decks) {
-  return {
-    decks
-  }
-}
+
+const mapStateToProps = decks => ({ decks })
 
 export default connect(
   mapStateToProps,

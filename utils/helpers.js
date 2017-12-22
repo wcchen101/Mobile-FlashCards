@@ -4,18 +4,30 @@ import { white } from './colors'
 import { Notifications, Permissions } from 'expo'
 const NOTIFICATION_KEY = 'MyDecksStore:notifications'
 
-export const styles = StyleSheet.create({
+export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: white,
     padding: 15,
   },
-  deckTop: {
+  topTap: {
     justifyContent: 'center',
     padding: 20,
     marginTop: 10,
-    borderColor: 'yellow',
-    borderWidth: 2,
+    borderBottomWidth: 2,
+  },
+  deckView: {
+    margin: 20,
+    justifyContent: 'center',
+    padding: 10,
+    borderWidth: 5,
+    borderRadius: 5,
+  },
+  deckText: {
+    margin: 20,
+    justifyContent: 'center',
+    padding: 10,
+    fontWeight: 'bold',
   },
   button: {
     alignItems: 'center',
@@ -35,12 +47,14 @@ export const styles = StyleSheet.create({
   textTitle: {
     fontSize: 25,
     justifyContent: 'center',
+    textAlign: 'center',
+    padding: 15,
+    margin: 15,
   },
 })
 
-//Refer to React Native Labs materials
-function createNotification() {
-  return {
+//Refer to React Native Labs materials, using ES6 arrow function for return value
+const createNotification = () => ({
     title: 'Time to quiz!',
     body: 'Remeber to do the quiz today!',
     ios: {
@@ -52,8 +66,7 @@ function createNotification() {
       sticky: false,
       vibrate: true,
     }
-  }
-}
+})
 
 //Refer to React Native Labs materials
 export function setLocalNotification() {

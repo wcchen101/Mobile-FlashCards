@@ -8,6 +8,7 @@ import { NOTIFICATION_KEY, clearLocalNotification, setLocalNotification } from '
 import { NavigationActions } from 'react-navigation'
 import { receiveQuizs } from '../actions'
 import { AppLoading } from 'expo'
+import { commonStyles } from '../utils/helpers'
 
 class QuizView extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class QuizView extends Component {
       questions: [],
       correctQuiz: 0,
       currentQuizIndex: 0,
+      isShowAnswer: false,
     };
   }
   static navigationOptions = ({ navigation }) => {
@@ -26,15 +28,13 @@ class QuizView extends Component {
   componentDidMount() {
     const { individualDeck } = this.props.navigation.state.params
     const { dispatch } = this.props.navigation
-    console.log('quiz view start quiz decl', individualDeck)
+
     getQuiz(individualDeck)
       .then((quizSet) => {
         dispatch(this.props.receiveQuizs(individualDeck, quizSet['questions']))
       })
-
     getQuiz(individualDeck)
       .then((quizSet) => this.setState({questions: quizSet['questions']}))
-
   }
   onCheckAnwser(answer) {
     let curIndex = this.state.currentQuizIndex
@@ -60,65 +60,93 @@ class QuizView extends Component {
   onPressCorrect = () => {
     this.onCheckAnwser('yes')
   }
+  onFlipAnswer = () => {
+    const { isShowAnswer } = this.state
+    this.setState({
+      isShowAnswer: !isShowAnswer,
+    })
+  }
+  onPressRestartQuiz = () => {
+    this.setState({
+      correctQuiz: 0,
+      currentQuizIndex: 0,
+      isShowAnswer: false,
+    })
+  }
+  onPressGoBackToDeck = () => {
+    const { individualDeck } = this.props.navigation.state.params
+    this.setState({
+      questions: [],
+      correctQuiz: 0,
+      currentQuizIndex: 0,
+      showAnswer: false,
+    })
+    this.props.navigation.dispatch(NavigationActions.back({individualDeck: individualDeck}))
+  }
   render() {
     const { quizSet } = this.props
-    let { individualDeck } = this.props.navigation.state.params
-    console.log( this.props.navigation,'individual', individualDeck,'outside', this.props.quizSet)
-    const { correctQuiz, currentQuizIndex } = this.state
+    const { individualDeck } = this.props.navigation.state.params
+    const { correctQuiz, currentQuizIndex, isShowAnswer} = this.state
     let questions = undefined
+
     if (individualDeck !== undefined && quizSet['decks']) {
       questions = quizSet['decks'][individualDeck]['questions']
     }
     if (quizSet == undefined || !quizSet || questions == undefined) {
       return <AppLoading/>
     }
+
     let correctPercentage = correctQuiz/questions.length * 100
-    console.log('item', questions[currentQuizIndex], 'index', currentQuizIndex, 'q', questions)
     let item = questions[currentQuizIndex]
+
     return (
-      <View style={styles.container}>
+      <View style={commonStyles.container}>
         { questions !== undefined && currentQuizIndex >= questions.length ? (
           <View>
             <Text>Congratulations! You complete the tests!</Text>
             <Text>Your scores {correctPercentage}%</Text>
+            <TouchableOpacity
+               onPress={this.onPressRestartQuiz}
+               style={[commonStyles.button]}>
+              <Text> Restart Quiz </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+               onPress={this.onPressGoBackToDeck}
+               style={[commonStyles.button, {backgroundColor: green}]}>
+              <Text> Go Back To deck </Text>
+            </TouchableOpacity>
           </View>
         )
           :
             (
               <View>
-                <Text>Your result: {correctQuiz}/{questions.length}</Text>
+                <Text>Quiz Left: {currentQuizIndex}/{questions.length}</Text>
                 {questions !== undefined && questions.length !== 0 && (
                   <View key={item}>
-                    <FlipCard
-                      style={styles.card}
-                      friction={6}
-                      perspective={1000}
-                      flipHorizontal={true}
-                      flipVertical={false}
-                      flip={false}
-                      clickable={true}
-                      onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
-                    >
-                      {/* Face Side */}
-                      <View >
-                        <Text style={styles.textTitle}>{item['question']}</Text>
-                      </View>
-                      {/* Back Side */}
-                      <View>
-                        <Text style={styles.textTitle}>{item['answer']}</Text>
-                      </View>
-                    </FlipCard>
+                      {isShowAnswer === true ? (
+                        <View>
+                          <Text style={commonStyles.textTitle}>{item['answer']}</Text>
+                        </View>
+                      ) : (
+                        <View>
+                          <Text style={commonStyles.textTitle}>{item['question']}</Text>
+                        </View>
+                      ) }
+                    <TouchableOpacity
+                       onPress={this.onFlipAnswer}
+                       style={[commonStyles.button]}>
+                      <Text> Show Answer </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                        onPress={this.onPressCorrect}
-                       style={[styles.button, {backgroundColor: green}]}>
+                       style={[commonStyles.button, {backgroundColor: green}]}>
                       <Text> Correct </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                        onPress={this.onPressIncorrect}
-                       style={[styles.button, {backgroundColor: red}]}>
+                       style={[commonStyles.button, {backgroundColor: red}]}>
                       <Text> Incorrect </Text>
                     </TouchableOpacity>
-                    <Text>{this.state.text}</Text>
                   </View>
                 )}
               </View>
@@ -129,42 +157,7 @@ class QuizView extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    margin: 10,
-    width: 300,
-    height: 50,
-    borderRadius: 10,
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    margin: 10,
-  },
-  textTitle: {
-    fontSize: 25,
-    justifyContent: 'center',
-
-  },
-  card: {
-    flex: 1,
-    margin: 30,
-    padding: 10,
-    height: 200,
-    width: 300,
-    justifyContent: 'center',
-  }
-})
-
-function mapStateToProps(quizSet) {
-  return {
-    quizSet,
-  }
-}
+const mapStateToProps = quizSet => ({ quizSet })
 
 export default connect(
   mapStateToProps,

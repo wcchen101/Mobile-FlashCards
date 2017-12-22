@@ -16,7 +16,6 @@ to prepare the exam or memorize some important concepts.
 
 ## External Library
 - Expo
-- React-native-flip-card
 - AppLoading
 
 ## Authors
@@ -25,5 +24,4 @@ to prepare the exam or memorize some important concepts.
 ## Reference
 - Udacity React Nanodegree course materials
 - Udacity React Native Labs materials
-- react-native-flip-card: https://www.npmjs.com/package/react-native-flip-card
 - React LifeCycle: https://engineering.musefind.com/react-lifecycle-methods-how-and-when-to-use-them-2111a1b692b1

@@ -7,6 +7,7 @@ import { NavigationActions } from 'react-navigation'
 import IndividualDeck from './IndividualDeck'
 import { receiveDecks } from '../actions'
 import { AppLoading } from 'expo'
+import { commonStyles } from '../utils/helpers'
 
 class DeckList extends Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class DeckList extends Component {
       .then((decks) => dispatch(this.props.receiveDecks(decks)))
       .then(() => this.setState(() => ({ready: true})))
   }
-
   checkIndividualDeck = () => {
     this.toIndividualDeck();
   }
@@ -36,13 +36,13 @@ class DeckList extends Component {
     }
     return (
       <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.topTap}>
+        <View style={commonStyles.container}>
+          <View style={commonStyles.topTap}>
             <Text style={{fontWeight:'bold'}}>Decks</Text>
           </View>
-          <View style={styles.container}>
+          <View style={commonStyles.container}>
             {decks !== undefined && decks && (Object.keys(decks).map((key) => (
-              <View key={key} style={styles.deckView}>
+              <View key={key} style={commonStyles.deckView}>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate(
                   'IndividualDeck',
@@ -62,42 +62,15 @@ class DeckList extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-    padding: 15,
-  },
-  topTap: {
-    justifyContent: 'center',
-    padding: 20,
-    marginTop: 10,
-    borderBottomWidth: 2,
-  },
-  deckText: {
-    margin: 20,
-    justifyContent: 'center',
-    padding: 10,
-    fontWeight: 'bold',
-  },
   deckCardText: {
     color: 'grey',
     justifyContent: 'center',
     margin: 5,
   },
-  deckView: {
-    margin: 20,
-    justifyContent: 'center',
-    padding: 10,
-    borderWidth: 5,
-    borderRadius: 5,
-  }
 })
 
-function mapStateToProps(decks) {
-  return {
-    decks
-  }
-}
+//ES6 way to do mapStateToProps
+const mapStateToProps = decks => ({ decks })
 
 export default connect(
   mapStateToProps,
