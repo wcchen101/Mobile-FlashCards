@@ -24,7 +24,6 @@
     "react": "16.0.0",
     "react-addons-update": "^15.6.2",
     "react-native": "0.50.3",
-    "react-navigation": "^1.0.0-beta.21",
-    "react-uikit-button-group": "^2.0.2"
+    "react-navigation": "^1.0.0-beta.21"
   }
 }
