@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import FlipCard from 'react-native-flip-card'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { purple, white, green, red } from '../utils/colors'
